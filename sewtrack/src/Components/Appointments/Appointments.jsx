@@ -297,9 +297,6 @@ export default function Appointments() {
           </Button>
         </Link>
       </Grid2>
-      {rows?.length === 0 || !rows ? (
-        <Alert severity="info">No Appointments found</Alert>
-      ) : (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
             <TableHead>
@@ -370,77 +367,94 @@ export default function Appointments() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows?.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" style={{ width: 80 }} scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell
-                    component="th"
-                    style={{ width: 150 }}
-                    scope="row"
-                    align="center"
-                  >
-                    {row.userName}
-                  </TableCell>
-                  <TableCell
-                    component="th"
-                    style={{ width: 100 }}
-                    scope="row"
-                    align="center"
-                  >
-                    {row.suitsQty}
-                  </TableCell>
-                  <TableCell
-                    style={{ width: 150 }}
-                    align="center"
-                    sx={{ fontSize: "12.5px" }}
-                  >
-                    {row.isDelivered ? "Delivered" : "Pending"}
-                  </TableCell>
-                  <TableCell
-                    style={{ width: 140 }}
-                    align="center"
-                    sx={{ fontSize: "12.5px" }}
-                  >
-                    {row.date}
-                  </TableCell>
-                  <TableCell
-                    style={{ width: 100 }}
-                    align="center"
-                    sx={{ fontSize: "12.5px" }}
-                  >
-                    {row.totalPrice}
-                  </TableCell>
-                  <TableCell
-                    style={{ width: 160 }}
-                    align="center"
-                    sx={{ fontSize: "13px" }}
-                  >
-                    <Link
-                      to={`edit-appointments/${row.custId}/${row.id}`}
-                      style={{ textDecoration: "none" }}
+              {rows?.length > 0 ? (
+                rows.map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" style={{ width: 80 }} scope="row">
+                      {row.id}
+                    </TableCell>
+                    <TableCell
+                      component="th"
+                      style={{ width: 150 }}
+                      scope="row"
+                      align="center"
                     >
-                      <IconButton>
-                        <Edit sx={{ color: indigo[300] }} />
+                      {row.userName}
+                    </TableCell>
+                    <TableCell
+                      component="th"
+                      style={{ width: 100 }}
+                      scope="row"
+                      align="center"
+                    >
+                      {row.suitsQty}
+                    </TableCell>
+                    <TableCell
+                      style={{ width: 150 }}
+                      align="center"
+                      sx={{ fontSize: "12.5px" }}
+                    >
+                      {row.isDelivered ? "Delivered" : "Pending"}
+                    </TableCell>
+                    <TableCell
+                      style={{ width: 140 }}
+                      align="center"
+                      sx={{ fontSize: "12.5px" }}
+                    >
+                      {row.date}
+                    </TableCell>
+                    <TableCell
+                      style={{ width: 100 }}
+                      align="center"
+                      sx={{ fontSize: "12.5px" }}
+                    >
+                      {row.totalPrice}
+                    </TableCell>
+                    <TableCell
+                      style={{ width: 160 }}
+                      align="center"
+                      sx={{ fontSize: "13px" }}
+                    >
+                      <Link
+                        to={`edit-appointments/${row.custId}/${row.id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <IconButton>
+                          <Edit sx={{ color: indigo[300] }} />
+                        </IconButton>
+                      </Link>
+                      <IconButton
+                        onClick={() =>
+                          setPreviewMode({ state: true, id: row.id })
+                        }
+                      >
+                        <Info sx={{ color: indigo[300] }} />
                       </IconButton>
-                    </Link>
-                    <IconButton
-                      onClick={() =>
-                        setPreviewMode({ state: true, id: row.id })
-                      }
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={12} height={200} align="center">
+                    <span
+                      style={{
+                        fontSize: 16,
+                        fontWeight: 500,
+                        color: "#2f2f2f",
+                      }}
                     >
-                      <Info sx={{ color: indigo[300] }} />
-                    </IconButton>
+                      No appointment found
+                    </span>
                   </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
+
             <TableFooter>
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                  colSpan={5}
+                  colSpan={12}
                   count={totalCount}
                   rowsPerPage={rowsPerPage}
                   page={page}
@@ -459,7 +473,6 @@ export default function Appointments() {
             </TableFooter>
           </Table>
         </TableContainer>
-      )}
     </>
   );
 }

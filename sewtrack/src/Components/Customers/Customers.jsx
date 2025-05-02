@@ -1,17 +1,8 @@
 import { useEffect, useState } from "react";
 import {
-  Alert,
   Button,
-  FormControl,
   Grid2,
   InputAdornment,
-  InputLabel,
-  LinearProgress,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  Select,
   Skeleton,
   TableHead,
   TextField,
@@ -19,7 +10,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import PropTypes from "prop-types";
-import { duration, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -226,18 +217,13 @@ export default function Customers() {
       </motion.div>
     );
   } else if (editMode.state) {
-    const customerData = rows.filter(
-      (eachRow) => eachRow.id === editMode.id
-    );
+    const customerData = rows.filter((eachRow) => eachRow.id === editMode.id);
     return (
       <motion.div
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0, transition: { duration: 0.3 } }}
       >
-        <EditCustomer
-          editMode={setEditMode}
-          customerData={customerData[0]}
-        />
+        <EditCustomer editMode={setEditMode} customerData={customerData[0]} />
       </motion.div>
     );
   }
@@ -295,7 +281,6 @@ export default function Customers() {
           </Button>
         </Link>
       </Grid2>
-      {rows?.length === 0 && <Alert severity="info">No Customers found</Alert>}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
@@ -384,77 +369,68 @@ export default function Customers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" style={{ width: 80 }} scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell component="th" style={{ width: 160 }} scope="row">
-                  {row.customerId}
-                </TableCell>
-                <TableCell component="th" style={{ width: 160 }} scope="row">
-                  {row.name}
-                </TableCell>
-                {/* <TableCell
-                  component="th"
-                  style={{ width: 120 }}
-                  scope="row"
-                  sx={{ fontSize: "12.5px" }}
-                >
-                  {row.email}
-                </TableCell> */}
-                <TableCell
-                  style={{ width: 100 }}
-                  align="center"
-                  sx={{ fontSize: "12.5px" }}
-                >
-                  {row.phoneNumber}
-                </TableCell>
-                <TableCell
-                  style={{ width: 140 }}
-                  align="center"
-                  sx={{ fontSize: "12.5px" }}
-                >
-                  {row.date}
-                </TableCell>
-                {/* <TableCell
-                  style={{ width: 100 }}
-                  align="center"
-                  sx={{ fontSize: "13px" }}
-                >
-                  {row.time}
-                </TableCell> */}
-                {/* <TableCell
-                  style={{ width: 100 }}
-                  align="center"
-                  sx={{ fontSize: "13px" }}
-                >
-                  {row.notes}
-                </TableCell> */}
-                <TableCell
-                  style={{ width: 160 }}
-                  align="center"
-                  sx={{ fontSize: "13px" }}
-                >
-                  <IconButton
-                    onClick={() => setEditMode({ state: true, id: row.id })}
+            {rows?.length > 0 ? (
+              rows.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" style={{ width: 80 }} scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell component="th" style={{ width: 160 }} scope="row">
+                    {row.customerId}
+                  </TableCell>
+                  <TableCell component="th" style={{ width: 160 }} scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell
+                    style={{ width: 100 }}
+                    align="center"
+                    sx={{ fontSize: "12.5px" }}
                   >
-                    <Edit sx={{ color: indigo[300] }} />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => setPreviewMode({ state: true, id: row.id })}
+                    {row.phoneNumber}
+                  </TableCell>
+                  <TableCell
+                    style={{ width: 140 }}
+                    align="center"
+                    sx={{ fontSize: "12.5px" }}
                   >
-                    <Info sx={{ color: indigo[300] }} />
-                  </IconButton>
+                    {row.date}
+                  </TableCell>
+                  <TableCell
+                    style={{ width: 160 }}
+                    align="center"
+                    sx={{ fontSize: "13px" }}
+                  >
+                    <IconButton
+                      onClick={() => setEditMode({ state: true, id: row.id })}
+                    >
+                      <Edit sx={{ color: indigo[300] }} />
+                    </IconButton>
+                    <IconButton
+                      onClick={() =>
+                        setPreviewMode({ state: true, id: row.id })
+                      }
+                    >
+                      <Info sx={{ color: indigo[300] }} />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={12} height={200} align="center">
+                  <span style={{fontSize: 16, fontWeight: 500, color: '#2f2f2f'}}>
+                  No customer found
+                  </span>
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
+
           <TableFooter>
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                colSpan={5}
+                colSpan={12}
                 count={totalCount}
                 rowsPerPage={rowsPerPage}
                 page={page}

@@ -1,21 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Toolbar,
   CssBaseline,
   Box,
-  Skeleton,
-  ListItemAvatar,
   ListItemButton,
   Avatar,
   Grid2,
   Typography,
-  Button,
-  Alert,
   ImageListItem,
   IconButton,
   Tooltip,
@@ -24,21 +16,12 @@ import {
   CircularProgress,
   useTheme,
   useMediaQuery,
-  Icon,
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
 import {
-  Create,
   Dashboard,
-  FormatAlignCenter,
   GroupAdd,
   ListAlt,
-  ListAltOutlined,
-  ListAltRounded,
-  LocalHospital,
   Logout,
-  Notes,
-  Person,
 } from "@mui/icons-material";
 import {
   Link,
@@ -46,28 +29,19 @@ import {
   useLocation,
   useNavigate,
   useNavigation,
-  useRouteLoaderData,
 } from "react-router";
-// import useAuth from "../../util/useAuth";
 import { deepOrange, indigo } from "@mui/material/colors";
-// import ModalContent from "../Modal/ModalContent";
 import { motion } from "motion/react";
-// import { useQuery } from "@tanstack/react-query";
-// import { getUser, queryClient } from "../../util/http";
 import toast, { Toaster } from "react-hot-toast";
-const Conn = import.meta.env.VITE_CONN_URI;
 
 const drawerWidth = 240;
 
 export default function Navigation() {
-  const [showPrompt, setShowPrompt] = useState(false);
   const navigation = useNavigation();
   const nav = useLocation();
   const navigate = useNavigate();
   const theme = useTheme();
-  // const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm')); // <600px
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("md")); // 600px - 900px
-  // const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); // >1200px
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -203,53 +177,6 @@ export default function Navigation() {
                 </ListItemButton>
               </Link>
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-            >
-              <Link
-                to="/chat"
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <ListItemButton
-                  style={{ display: "flex", gap: "2rem" }}
-                  sx={
-                    nav.pathname.split("/")[1] === "chat" && {
-                      backgroundColor: "whitesmoke",
-                    }
-                  }
-                >
-                  <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
-                    <ListAlt />
-                  </Typography>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
-                    Chat
-                  </Typography>
-                </ListItemButton>
-              </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.9 }}
-            >
-              <ListItemButton
-                sx={{ display: "flex", gap: "2rem" }}
-                onClick={logoutHandler}
-              >
-                <Typography
-                  sx={{ fontWeight: "bold", fontSize: "14px", color: "red" }}
-                >
-                  <Logout />
-                </Typography>
-                <Typography
-                  sx={{ fontWeight: "bold", fontSize: "14px", color: "red" }}
-                > 
-                  Logout
-                </Typography>
-              </ListItemButton>
-            </motion.div>
           </List>
         </Drawer>
       )}
@@ -306,7 +233,7 @@ export default function Navigation() {
             </Grid2>
           )}
 
-          <Tooltip title="Change profile picture">
+          <Tooltip title="Menu">
             <IconButton onClick={handleClick}>
               <Avatar
                 sx={{ bgcolor: deepOrange[500] }}
@@ -333,20 +260,9 @@ export default function Navigation() {
           >
             <Toaster />
             <MenuItem
-              onClick={() => {
-                setShowPrompt(true);
-                handleClosePrompt();
-              }}
+              onClick={logoutHandler}
             >
-              Change Profile Picture
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleClosePrompt();
-                navigate("/users/profile");
-              }}
-            >
-              View Profile
+             <Logout fontSize="12px" /> Logout
             </MenuItem>
           </Menu>
         </Grid2>

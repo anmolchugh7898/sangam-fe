@@ -1,10 +1,7 @@
 import {
-  Alert,
   Box,
   Button,
   CircularProgress,
-  FormControl,
-  FormHelperText,
   Grid2,
   IconButton,
   InputAdornment,
@@ -12,14 +9,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { addNewCustomer, queryClient } from "../../util/API/http.js";
 import { debounce } from "lodash";
 import {
-  Check,
   CheckBox,
   CheckBoxOutlineBlankRounded,
   Info,
