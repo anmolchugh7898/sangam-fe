@@ -1,29 +1,26 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login, { loginLoader } from "./Components/Login";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
+import Login, { loginLoader } from "./pages/Login";
 import { createTheme, Skeleton, ThemeProvider } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import Navigation from "./Components/Navigation";
-import RouteAuthGuardLoader from "./util/loaders/RouteAuthGuardLoader";
-import Dashboard from "./Components/Dashboard";
-import Customers from "./Components/Customers/Customers";
+import Navigation from "./pages/Navigation";
+import RouteAuthGuardLoader from "./utils/loaders/RouteAuthGuardLoader";
+import Dashboard from "./pages/Dashboard";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./util/API/http";
-import AddCustomer from "./Components/Customers/AddCustomer";
-import Appointments from "./Components/Appointments/Appointments";
-import AddAppointment from "./Components/Appointments/AddAppointments";
-import EditAppointment from "./Components/Appointments/EditAppointment";
-import ChatComponent from "./Components/Chat/Chat";
-
+import { queryClient } from "./utils/API/http";
+import './index.css'
+import Appointments from './pages/Appointments/Appointments';
+import AddCustomer from './pages/Customers/AddCustomer';
+import AddAppointment from "./pages/appointments/AddAppointments";
+import Customers from './pages/Customers/Customers';
 export default function App() {
   const theme = createTheme({
     palette: {
       background: {
         default: grey[50],
       },
+    },
+    typography: {
+      fontFamily: '"Be Vietnam Pro", sans-serif',
     },
   });
 
@@ -61,14 +58,10 @@ export default function App() {
           path: "/appointments/add-appointments",
           element: <AddAppointment />,
         },
-        {
-          path: "/appointments/edit-appointments/:customerId/:appointmentId",
-          element: <EditAppointment />,
-        },
-        {
-          path: "/chat",
-          element: <ChatComponent />,
-        },
+        // {
+        //   path: "/appointments/edit-appointments/:customerId/:appointmentId",
+        //   element: <EditAppointment />,
+        // },
       ],
     },
   ]);

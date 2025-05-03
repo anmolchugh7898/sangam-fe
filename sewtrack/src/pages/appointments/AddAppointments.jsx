@@ -22,7 +22,7 @@ import {
   fetchAllCustomers,
   queryClient,
   createAppointment,
-} from "../../util/API/http";
+} from "../../utils/API/http";
 import { ArrowBack, ArrowLeftOutlined } from "@mui/icons-material";
 import {
   Formik,

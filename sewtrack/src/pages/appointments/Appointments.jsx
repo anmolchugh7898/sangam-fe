@@ -42,10 +42,12 @@ import { useDebounce } from "use-debounce";
 import { motion } from "motion/react";
 import PreviewAppointment from "./PreviewAppointment";
 import EditAppointment from "./EditAppointment";
-import fetchAppointments, { queryClient } from "../../util/API/http";
+import fetchAppointments, { queryClient } from "../../utils/API/http";
 import toast, { Toaster } from "react-hot-toast";
 import { debounce } from "lodash";
+import CustomButton from "../../components/button";
 const Conn = import.meta.env.VITE_CONN_URI;
+import SearchInput from '../../components/search/index';
 
 export default function Appointments() {
   const [page, setPage] = React.useState(0);
@@ -243,62 +245,42 @@ export default function Appointments() {
     }
   }
   return (
-    <>
+    <div className="custom-bg-table-main">
       <Toaster />
-      <Typography
+      {/* <Typography
         variant="h4"
         fontWeight="bold"
         align="center"
         sx={{ marginBottom: "1rem" }}
       >
         Appointments
-      </Typography>
+      </Typography> */}
       <Grid2
         display="flex"
-        justifyContent="space-between"
+        justifyContent="flex-end"
         gap="1rem"
         alignItems="center"
+        marginBottom={3}
       >
-        <TextField
-          type="search"
-          size="small"
+        <SearchInput
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder="Search"
-          sx={{ width: "30rem" }}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment>
-                  {keyword.length === 0 && <Search />}
-                </InputAdornment>
-              ),
-            },
-          }}
+          placeholder="Search by name or email"
+          width="300px"
         />
         <Link
           to="add-appointments"
           style={{ textDecoration: "none", color: "black" }}
         >
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              borderRadius: "6px",
-              backgroundColor: indigo[300],
-              marginBottom: "5px",
-              paddingTop: "8px",
-              paddingBottom: "8px",
-              paddingLeft: "10px",
-              paddingRight: "10px",
-            }}
-          >
-            Add Appointment
-          </Button>
+          <CustomButton
+            label="Add Appointment"
+            color="primary"
+            fullWidth
+          />
         </Link>
       </Grid2>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+          <Table className="custom-table" sx={{ minWidth: 500 }} aria-label="custom pagination table">
             <TableHead>
               <TableRow sx={{ marginBottom: "2rem" }}>
                 <TableCell>
@@ -473,6 +455,6 @@ export default function Appointments() {
             </TableFooter>
           </Table>
         </TableContainer>
-    </>
+    </div>
   );
 }

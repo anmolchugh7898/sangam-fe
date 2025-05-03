@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body { 
+    background-color: #f7f9fb !important;
+    font-family: "Be Vietnam Pro", sans-serif !important;
+}
+
+.custom-bg-table-main {
+    background-color: white;
+    padding: 20px 15px;
+    border-radius: 10px;
+}
+
+.custom-bg-table-main .css-y2ff7i-MuiPaper-root-MuiTableContainer-root {
+    box-shadow: none !important;
+}
+
+.custom-bg-table-main .custom-table thead tr th {
+    background-color: #f4f6f9 !important;
+    padding: .75rem !important;
+}
+
+.custom-bg-table-main .custom-table thead tr th .css-130h494-MuiTypography-root {
+    font-size: 14px !important;
+}
+
+.custom-bg-table-main .custom-table thead tr th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.custom-bg-table-main .custom-table thead tr th{
+    border: none !important;
+}
+.custom-bg-table-main .custom-table thead tr th:last-child {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.css-1ux8rdl-MuiButtonBase-root-MuiListItemButton-root:hover {
+    color: rgba(137, 67, 67, .7) !important;
+}
+
+.custom-side-anchor {
+    transition: all .3s ease;
+}
+
+.css-4bx69l-MuiButtonBase-root-MuiListItemButton-root {
+    transition: all .3s ease-in-out;
+}
+
+.css-4bx69l-MuiButtonBase-root-MuiListItemButton-root:hover {
+    color: rgba(137, 67, 67, 1) !important;
+    background-color: transparent !important;
+}
+
+.active-navlink {
+    color: rgba(137, 67, 67, 1) !important;
+}
+
+.active-navlink .css-4bx69l-MuiButtonBase-root-MuiListItemButton-root, .active-navlink .css-1ux8rdl-MuiButtonBase-root-MuiListItemButton-root:hover {
+    background-color: rgba(137, 67, 67, .225) !important;
+    border-radius: 10px !important;
+}
+
+.custom-search-main .css-jupps9-MuiInputBase-root-MuiOutlinedInput-root .css-1ll44ll-MuiOutlinedInput-notchedOutline {
+    border-color: #e2e7f1 !important;
+    border-radius: .4rem !important;
+    padding: .517rem .95rem !important;
+}
+
+.active-navlink .css-x0ap2p-MuiTypography-root {
+    font-weight: 600 !important;
+}
+
+.custom-side-anchor .css-x0ap2p-MuiTypography-root {
+    font-weight: 500;
+}

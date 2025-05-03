@@ -17,7 +17,7 @@ import { Form, useNavigate } from "react-router";
 import { redirect } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { indigo } from "@mui/material/colors";
-import useAuth from "../util/useAuth";
+import useAuth from "../utils/useAuth";
 const Conn = import.meta.env.VITE_CONN_URI;
 
 export default function Login() {

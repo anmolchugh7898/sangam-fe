@@ -1,7 +1,7 @@
 import { ArrowBack, ArrowLeftOutlined } from "@mui/icons-material";
 import { Box, Grid2, IconButton, Skeleton, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAppointmentItems } from "../../util/API/http";
+import { fetchAppointmentItems } from "../../utils/API/http";
 
 export default function PreviewAppointment({ previewMode, customerData }) {
   const { data, isLoading } = useQuery({

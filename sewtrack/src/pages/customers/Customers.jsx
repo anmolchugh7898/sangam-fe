@@ -28,13 +28,15 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import { Link } from "react-router";
 import { indigo } from "@mui/material/colors";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { fetchCustomers } from "../../util/API/http";
+import { fetchCustomers } from "../../utils/API/http";
 import { Delete, Edit, Info, Preview, Search } from "@mui/icons-material";
 import { useDebounce } from "use-debounce";
 import { motion } from "motion/react";
 import EditCustomer from "./EditCustomer";
 import PreviewCustomer from "./PreviewCustomer";
 const Conn = import.meta.env.VITE_CONN_URI;
+import CustomButton from '../../components/button/index';
+import SearchInput from '../../components/search/index';
 
 export default function Customers() {
   const [page, setPage] = React.useState(0);
@@ -228,61 +230,41 @@ export default function Customers() {
     );
   }
   return (
-    <>
-      <Typography
+    <div className="custom-bg-table-main">
+      {/* <Typography
         variant="h4"
         fontWeight="bold"
-        align="center"
-        sx={{ marginBottom: "1rem" }}
+        align="flex-start"
+        sx={{ marginBottom: "1rem", fontSize: 20 }}
       >
         Customers
-      </Typography>
+      </Typography> */}
       <Grid2
         display="flex"
-        justifyContent="space-between"
+        justifyContent="flex-end"
         gap="1rem"
         alignItems="center"
+        marginBottom={3}
       >
-        <TextField
-          type="search"
-          size="small"
+        <SearchInput
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder="Search"
-          sx={{ width: "30rem" }}
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment>
-                  {keyword.length === 0 && <Search />}
-                </InputAdornment>
-              ),
-            },
-          }}
+          placeholder="Search by name or email"
+          width="300px"
         />
         <Link
           to="add-customer"
           style={{ textDecoration: "none", color: "black" }}
         >
-          <Button
-            variant="contained"
-            size="small"
-            sx={{
-              borderRadius: "6px",
-              backgroundColor: indigo[300],
-              marginBottom: "5px",
-              paddingTop: "8px",
-              paddingBottom: "8px",
-              paddingLeft: "10px",
-              paddingRight: "10px",
-            }}
-          >
-            Add Customer
-          </Button>
+          <CustomButton
+            label="Add Customer"
+            color="primary"
+            fullWidth
+          />
         </Link>
       </Grid2>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+        <Table className="custom-table" sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
             <TableRow sx={{ marginBottom: "2rem" }}>
               <TableCell>
@@ -403,14 +385,14 @@ export default function Customers() {
                     <IconButton
                       onClick={() => setEditMode({ state: true, id: row.id })}
                     >
-                      <Edit sx={{ color: indigo[300] }} />
+                      <Edit sx={{ color: '#894343' }} />
                     </IconButton>
                     <IconButton
                       onClick={() =>
                         setPreviewMode({ state: true, id: row.id })
                       }
                     >
-                      <Info sx={{ color: indigo[300] }} />
+                      <Info sx={{ color: '#894343' }} />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -449,6 +431,6 @@ export default function Customers() {
           </TableFooter>
         </Table>
       </TableContainer>
-    </>
+    </div>
   );
 }

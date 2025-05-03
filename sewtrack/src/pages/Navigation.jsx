@@ -17,14 +17,10 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import {
-  Dashboard,
-  GroupAdd,
-  ListAlt,
-  Logout,
-} from "@mui/icons-material";
+import { Dashboard, GroupAdd, ListAlt, Logout } from "@mui/icons-material";
 import {
   Link,
+  NavLink,
   Outlet,
   useLocation,
   useNavigate,
@@ -81,7 +77,7 @@ export default function Navigation() {
               alt="hospital"
             />
           </ImageListItem>
-          <Typography
+          {/* <Typography
             variant="h6"
             fontWeight="bold"
             paddingLeft="20px"
@@ -89,7 +85,7 @@ export default function Navigation() {
             marginTop="14px"
           >
             Main menu
-          </Typography>
+          </Typography> */}
           <List
             sx={{
               paddingLeft: "1rem",
@@ -104,78 +100,126 @@ export default function Navigation() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
             >
-              <Link
-                to="dashboard"
-                style={{ textDecoration: "none", color: "black" }}
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  `custom-side-anchor ${isActive ? "active-navlink" : ""}`
+                }
+                style={{
+                  textDecoration: "none",
+                  color: "#231f20",
+                  transition: "all 0.3s ease",
+                }}
               >
                 <ListItemButton
-                  style={{ display: "flex", gap: "2rem" }}
-                  sx={
-                    nav.pathname.split("/")[1] === "dashboard" && {
-                      backgroundColor: "whitesmoke",
-                    }
-                  }
+                  style={{ display: "flex", gap: "1rem", alignItems: "center" }}
                 >
-                  <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     <Dashboard />
                   </Typography>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     Dashboard
                   </Typography>
                 </ListItemButton>
-              </Link>
+              </NavLink>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <Link
-                to="customers"
-                style={{ textDecoration: "none", color: "black" }}
+              <NavLink
+                to="/customers"
+                className={({ isActive }) =>
+                  `custom-side-anchor ${isActive ? "active-navlink" : ""}`
+                }
+                style={{
+                  textDecoration: "none",
+                  color: "#231f20",
+                  transition: "all 0.3s ease",
+                }}
               >
                 <ListItemButton
-                  style={{ display: "flex", gap: "2rem" }}
-                  sx={
-                    nav.pathname.split("/")[1] === "customers" && {
-                      backgroundColor: "whitesmoke",
-                    }
-                  }
+                  style={{ display: "flex", gap: "1rem", alignItems: "center" }}
                 >
-                  <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     <GroupAdd />
                   </Typography>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     Customers
                   </Typography>
                 </ListItemButton>
-              </Link>
+              </NavLink>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.7 }}
             >
-              <Link
+              <NavLink
                 to="/appointments"
-                style={{ textDecoration: "none", color: "black" }}
+                className={({ isActive }) =>
+                  `custom-side-anchor ${isActive ? "active-navlink" : ""}`
+                }
+                style={{
+                  textDecoration: "none",
+                  color: "#231f20",
+                  transition: "all 0.3s ease",
+                }}
               >
                 <ListItemButton
-                  style={{ display: "flex", gap: "2rem" }}
-                  sx={
-                    nav.pathname.split("/")[1] === "appointments" && {
-                      backgroundColor: "whitesmoke",
-                    }
-                  }
+                  style={{ display: "flex", gap: "1rem", alignItems: "center" }}
                 >
-                  <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     <ListAlt />
                   </Typography>
-                  <Typography sx={{ fontWeight: "bold", fontSize: "14px" }}>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     Appointments
                   </Typography>
                 </ListItemButton>
-              </Link>
+              </NavLink>
             </motion.div>
           </List>
         </Drawer>
@@ -185,17 +229,19 @@ export default function Navigation() {
           display="flex"
           justifyContent="space-between"
           sx={{
-            backgroundColor: indigo[300],
+            backgroundColor: "white",
             color: "white",
             paddingLeft: "1.5rem",
             paddingRight: "1.5rem",
             paddingTop: "0.5rem",
             paddingBottom: "0.5rem",
+            borderBottom: '1px solid rgba(137, 67, 67, .225)'
           }}
         >
           <Typography
             variant="h6"
             fontWeight="bold"
+            color="#894343"
             sx={{ alignSelf: "center" }}
           >
             Sew Track
@@ -236,7 +282,7 @@ export default function Navigation() {
           <Tooltip title="Menu">
             <IconButton onClick={handleClick}>
               <Avatar
-                sx={{ bgcolor: deepOrange[500] }}
+                sx={{ bgcolor: "#894343", color: "#fff" }}
                 alt="Remy Sharp"
                 src={"any"}
               >
@@ -259,10 +305,8 @@ export default function Navigation() {
             }}
           >
             <Toaster />
-            <MenuItem
-              onClick={logoutHandler}
-            >
-             <Logout fontSize="12px" /> Logout
+            <MenuItem onClick={logoutHandler}>
+              <Logout fontSize="12px" /> Logout
             </MenuItem>
           </Menu>
         </Grid2>

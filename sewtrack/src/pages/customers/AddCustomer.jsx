@@ -1,10 +1,7 @@
 import {
-  Alert,
   Box,
   Button,
   CircularProgress,
-  FormControl,
-  FormHelperText,
   Grid2,
   IconButton,
   InputAdornment,
@@ -12,15 +9,13 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { addNewCustomer, editCustomer, queryClient } from "../../util/API/http.js";
+import { useMutation } from "@tanstack/react-query";
+import { addNewCustomer, queryClient } from "../../utils/API/http.js";
 import { debounce } from "lodash";
 import {
-  ArrowLeftOutlined,
-  Check,
   CheckBox,
   CheckBoxOutlineBlankRounded,
   Info,
@@ -28,13 +23,15 @@ import {
 import { indigo } from "@mui/material/colors";
 const Conn = import.meta.env.VITE_CONN_URI;
 
-export default function EditCustomer({ editMode, customerData }) {
+export default function AddCustomer() {
   const [submissionProgress, setSubmissionProgress] = useState(false);
-  const [name, setName] = useState(customerData?.name);
-  const [phoneNumber, setPhoneNumber] = useState(customerData?.phoneNumber);
-  const [email, setEmail] = useState(customerData?.email);
-  const [address, setAddress] = useState(customerData?.address);
-  const [notes, setNotes] = useState(customerData?.notes);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isVerifying, setIsVerfying] = useState(false);
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [notes, setNotes] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [error, setError] = useState({
     nameError: {
@@ -46,6 +43,14 @@ export default function EditCustomer({ editMode, customerData }) {
       message: "",
     },
     phoneError: {
+      state: false,
+      message: "",
+    },
+    notesError: {
+      state: false,
+      message: "",
+    },
+    customerIdError: {
       state: false,
       message: "",
     },
@@ -176,6 +181,18 @@ export default function EditCustomer({ editMode, customerData }) {
           }));
         }
         break;
+
+      case "customerId":
+        if (value.length < 6) {
+          setError((prevState) => ({
+            ...prevState,
+            customerIdError: {
+              state: true,
+              message: "Customer id must be atleast 6 character long",
+            },
+          }));
+        }
+        break;
       case "phoneNumber":
         if (isNaN(value)) {
           setError((prevState) => ({
@@ -201,7 +218,7 @@ export default function EditCustomer({ editMode, customerData }) {
   }
 
   const { mutate, error: mutateError } = useMutation({
-    mutationFn: editCustomer,
+    mutationFn: addNewCustomer,
     onSuccess: () => {
       setSubmissionProgress(false);
       queryClient.invalidateQueries({
@@ -209,7 +226,7 @@ export default function EditCustomer({ editMode, customerData }) {
         exact: false,
       });
       toast.loading(
-        "Successfully updated Customer, redirecting to Customer's page",
+        "Successfully added Customer, redirecting to Customer's page",
         {
           duration: 1900,
         }
@@ -233,6 +250,32 @@ export default function EditCustomer({ editMode, customerData }) {
     },
   });
 
+  async function verifyCustomerId() {
+    setIsVerfying(true);
+    const response = await fetch(
+      `${Conn}/customers/verifyCustomerId/?customerId=${customerId}`,
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    if (response.ok) {
+      setIsVerified(true);
+      toast.success("Username accepted!");
+    } else {
+      if (response.status === 401) {
+        localStorage.clear();
+        toast.loading("Token expired, logging out", { duration: 1900 });
+        logout();
+      } else {
+        toast("Username already exist!", {
+          icon: <Info sx={{ color: indigo[300] }} />,
+        });
+      }
+    }
+    setIsVerfying(false);
+  }
   async function onSubmitHandler(event) {
     event.preventDefault();
     setSubmissionProgress(true);
@@ -241,7 +284,7 @@ export default function EditCustomer({ editMode, customerData }) {
       email: email,
       address: address,
       phoneNumber: phoneNumber,
-      customerId: customerData.customerId,
+      customerId,
       notes,
     };
     mutate({ formData });
@@ -249,9 +292,6 @@ export default function EditCustomer({ editMode, customerData }) {
 
   return (
     <>
-      <IconButton onClick={() => editMode({ state: false, id: "" })}>
-        <ArrowLeftOutlined />
-      </IconButton>
       <Box
         sx={{
           backgroundColor: "white",
@@ -264,7 +304,7 @@ export default function EditCustomer({ editMode, customerData }) {
         <Toaster />
         <Grid2 sx={{ paddingTop: "1rem" }}>
           <Typography variant="h5" sx={{ fontSize: "1.5rem" }} align="center">
-            Edit Customer
+            Add Customer
           </Typography>
           <Typography
             variant="caption"
@@ -294,7 +334,7 @@ export default function EditCustomer({ editMode, customerData }) {
               paddingTop: "1rem",
             }}
           >
-            {/* <TextField
+            <TextField
               name="customerId"
               id="customerId"
               label="Choose a 6 character unique customer id"
@@ -331,7 +371,7 @@ export default function EditCustomer({ editMode, customerData }) {
                 },
               }}
               size="medium"
-            /> */}
+            />
             <TextField
               name="name"
               id="name"
@@ -341,6 +381,7 @@ export default function EditCustomer({ editMode, customerData }) {
               error={error.nameError.state}
               helperText={error.nameError.message}
               onChange={onChangeHandler}
+              disabled={!isVerified}
               size="medium"
             />
             <TextField
@@ -351,6 +392,7 @@ export default function EditCustomer({ editMode, customerData }) {
               onBlur={onBlurHandler}
               error={error.emailError.state}
               helperText={error.emailError.message}
+              disabled={!isVerified}
               onChange={onChangeHandler}
               size="medium"
             />
@@ -361,6 +403,7 @@ export default function EditCustomer({ editMode, customerData }) {
               label="Enter address of the customer"
               value={address}
               onBlur={onBlurHandler}
+              disabled={!isVerified}
               error={error.addressError.state}
               helperText={error.addressError.message}
               onChange={onChangeHandler}
@@ -373,6 +416,7 @@ export default function EditCustomer({ editMode, customerData }) {
               label="Enter customer's phone number"
               value={phoneNumber}
               onBlur={onBlurHandler}
+              disabled={!isVerified}
               error={error.phoneError.state}
               helperText={error.phoneError.message}
               onChange={onChangeHandler}
@@ -384,21 +428,15 @@ export default function EditCustomer({ editMode, customerData }) {
               label="Enter notes such as measurements of the customer"
               type="text"
               value={notes}
+              disabled={!isVerified}
               onBlur={onBlurHandler}
+              error={error.notesError.state}
+              helperText={error.notesError.message}
               onChange={onChangeHandler}
               size="medium"
             />
 
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={
-                error.nameError.state ||
-                error.addressError.state ||
-                error.emailError.state ||
-                error.phoneError.state
-              }
-            >
+            <Button type="submit" variant="contained" disabled={!isVerified}>
               Submit
             </Button>
           </Grid2>

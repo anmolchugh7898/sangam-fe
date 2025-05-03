@@ -24,8 +24,8 @@ import {
   fetchAppointmentItems,
   queryClient,
   updateAppointment,
-} from "../../util/API/http";
-import { ArrowBack, ArrowLeftOutlined } from "@mui/icons-material";
+} from "../../utils/API/http";
+import { ArrowLeftOutlined } from "@mui/icons-material";
 import {
   Formik,
   Form,
